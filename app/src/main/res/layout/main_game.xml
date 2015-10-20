@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:splitMotionEvents="false">
+
+    <com.mingbaipintu.TitleLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.mingbaipintu.TitleLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray">
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            </TableLayout>
+            <ImageView
+                android:id="@+id/pre_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+        <RelativeLayout
+            android:id="@+id/relative_gameThrought"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/image_gameThrought"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/green">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="完成"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:id="@+id/showMark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"/>
+                <Button
+                    android:id="@+id/again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="重玩"
+                    android:textColor="@color/white"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"/>
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="换一张"
+                    android:textColor="@color/white"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="15dp"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <com.mingbaipintu.MyListView
+            android:id="@+id/listView"
+            android:layout_width="100dp"
+            android:layout_height="300dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/darkgreen"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+        </com.mingbaipintu.MyListView>
+    </RelativeLayout>
+</LinearLayout>

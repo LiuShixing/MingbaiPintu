@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">明白的拼图</string>
+    <string name="action_settings">Settings</string>
+    <string name="save">保存</string>
+    <string name="add">+</string>
+    <string name="titleText">明白的拼图</string>
+    <string name="quit"> X </string>
+    <string name="set"> O </string>
+    <string name="choosePicBroadcast">com.CropPicture.CHOOSE_PIC_BROADCAST</string>
+    <string name="padding">1dp</string>
+    <string name="pressBack">再按一次返回键退出。</string>
+    <string name="title_activity_start">StartActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_option">OptionActivity</string>
+    <string name="start">开始</string>
+    <string name="title_activity_choose_image">ChooseImageActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+</resources>
