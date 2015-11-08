@@ -79,7 +79,7 @@
                     android:id="@+id/next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="换一张"
+                    android:text="下一关"
                     android:textColor="@color/white"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
@@ -89,7 +89,7 @@
         <com.mingbaipintu.MyListView
             android:id="@+id/listView"
             android:layout_width="100dp"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:background="@color/darkgreen"

@@ -28,7 +28,7 @@ public class TitleLayout extends LinearLayout {
         TextView quit = (TextView) findViewById(R.id.quit);
         TextView setting = (TextView) findViewById(R.id.setting);
         mTitle = (TextView) findViewById(R.id.mytitle);
-        mTitle.setText("开始");
+        mTitle.setText("");
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
 
         quit.setOnClickListener(new OnClickListener() {
@@ -43,15 +43,6 @@ public class TitleLayout extends LinearLayout {
             public void onClick(View v) {
                 Intent intent = new Intent(SETTING_BROADCAST);
                 localBroadcastManager.sendBroadcast(intent);
-            }
-        });
-        mTitle.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mIs_start) {
-                    Intent intent = new Intent(TITLE_ACTION_BROADCAST);
-                    localBroadcastManager.sendBroadcast(intent);
-                }
             }
         });
 
@@ -70,10 +61,18 @@ public class TitleLayout extends LinearLayout {
         mTitle.setText(ts);
     }
 
-    public void setIsStart(boolean is) {
+    public void setIsStart(boolean is,boolean isCustom) {
         this.mIs_start = is;
         if (is) {
-            mTitle.setText("开始");
+            if(isCustom)
+            {
+                mTitle.setText("");
+            }
+            else
+            {
+                mTitle.setText("第"+MainActivity.mLevel+"关(共25关)");
+            }
+
         } else {
             mTitle.setText("00:00");
         }

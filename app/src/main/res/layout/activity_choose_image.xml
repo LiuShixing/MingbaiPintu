@@ -30,10 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:columnWidth="100dp"
-        android:horizontalSpacing="2dp"
-        android:numColumns="auto_fit"
+        android:numColumns="3"
         android:stretchMode="columnWidth"
+        android:horizontalSpacing="2dp"
         android:verticalSpacing="2dp">
 
     </GridView>
