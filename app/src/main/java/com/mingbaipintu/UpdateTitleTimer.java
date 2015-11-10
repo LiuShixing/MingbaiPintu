@@ -47,16 +47,14 @@ public class UpdateTitleTimer {
     }
     public void pause()
     {
-        if(mTimer!=null) {
+        if(GameManager.getInstance().ismIsGaming()) {
             concelTimer();
-            mIsPause = true;
         }
     }
     public void continueTimer()
     {
-        if(mIsPause) {
+        if(GameManager.getInstance().ismIsGaming()) {
             startTimer(mUserdTime);
-            mIsPause=false;
         }
     }
 

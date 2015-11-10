@@ -80,6 +80,7 @@ public class UIManager {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 mainActivity.finish();
+                System.exit(0);
             }
         });
         builder.create().show();
@@ -192,17 +193,12 @@ public class UIManager {
                 break;
             }
         }
-        is = true;
         if (is) {
            GameManager.getInstance().gameWin();
         }
     }
     public void setGameWinMarkText(int time,String str) {
         mGameWinView.setMarkText(time, str);
-    }
-    public void setGameWinReviewViewImage(Bitmap image)
-    {
-        mGameWinView.setGameReviewViewImage(image);
     }
     public void setGameWinAgainButtonVisibility(boolean visibility)
     {
@@ -255,5 +251,23 @@ public class UIManager {
             mImageFragmentViews[i].setId(i);
             mImageFragmentViews[i].setmBitmapIndex(index);
         }
+    }
+    public void releaseBitmapResourse(int diff)
+    {
+        for(int i=0;i<100;i++)
+        {
+            if(mImageFragmentViews[i]!=null) {
+                mImageFragmentViews[i].setImageResource(0);
+            }
+        }
+        for(FlowImage flowImage :mFlowImageMap.values() )
+        {
+            if(flowImage!=null) {
+                flowImage.setImageResource(0);
+            }
+        }
+        mGameView.releaseBitmapResourse();
+        mGameWinView.releaseBitmapResourse();
+        System.gc();
     }
 }

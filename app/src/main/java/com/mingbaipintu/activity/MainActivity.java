@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -44,6 +43,8 @@ public class MainActivity extends Activity {
 
     private UIManager mUIManager;
     private GameManager mGameManager;
+
+    private String mLastPicAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
         UpdateTitleTimer.getInstance().continueTimer();
     }
 
@@ -145,11 +147,7 @@ public class MainActivity extends Activity {
                     mGameManager.splitBitmap();
                     mGameManager.gameReady();
 
-                    String addr = getImagePathFromUri(uri);
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString(LAST_IMAGE_ADDR, addr);
-                    editor.putInt(LAST_IMAGE_INDEX_FROM_APP, -1);
-                    editor.commit();
+                    mLastPicAddr = getImagePathFromUri(uri);
                 }
                 break;
             case CHOOSE_IMAGE:
@@ -191,15 +189,6 @@ public class MainActivity extends Activity {
         return actualimagecursor.getString(actual_image_column_index);
     }
 
-    private void recycleBitmap(Bitmap bitmap) {
-        // 先判断是否已经回收
-        if (bitmap != null && !bitmap.isRecycled()) {
-            // 回收并且置为null
-            bitmap.recycle();
-            bitmap = null;
-            //    System.gc();
-        }
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -211,6 +200,7 @@ public class MainActivity extends Activity {
                     mExitTime = System.currentTimeMillis();
                 } else {
                     finish();
+                    System.exit(0);
                 }
             }
             return true;
@@ -221,5 +211,10 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
        mGameManager.getmLocalBroadcastManager().unregisterReceiver(mLocalReceiver);
+
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(LAST_IMAGE_ADDR, mLastPicAddr);
+        editor.putInt(LAST_IMAGE_INDEX_FROM_APP, -1);
+        editor.commit();
     }
 }

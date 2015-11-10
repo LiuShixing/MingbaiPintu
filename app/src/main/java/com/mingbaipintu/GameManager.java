@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
@@ -13,6 +12,7 @@ import com.mingbaipintu.activity.ChooseImageActivity;
 import com.mingbaipintu.activity.MainActivity;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -31,7 +31,6 @@ public class GameManager {
     private Bitmap mCurrentImage;
     private int mWidthPixel;
     private int mHeightPixel;
-    private UpdateTitleTimer mTimer;
     private boolean mIsGaming;
 
     private GameManager() {
@@ -39,6 +38,7 @@ public class GameManager {
         mLocalBroadcastManager=LocalBroadcastManager.getInstance(MyApplication.getContextObject());
         mIsCustom=false;
         mLevel=1;
+        mIsGaming=false;
     }
 
     public static GameManager getInstance() {
@@ -46,6 +46,10 @@ public class GameManager {
             mGameManager = new GameManager();
         }
         return mGameManager;
+    }
+    public boolean ismIsGaming()
+    {
+        return mIsGaming;
     }
     public void setScreenPixel(int widthPixel,int heightPixel)
     {
@@ -106,7 +110,9 @@ public class GameManager {
     }
     public void gameReady()
     {
+        mIsGaming=false;
         UpdateTitleTimer.getInstance().concelTimer();
+        mUIManager.releaseBitmapResourse(mDiff);
         if(mIsCustom) {
             mUIManager.setTitleText("");
         }else
@@ -186,9 +192,11 @@ public class GameManager {
 
         for (int i = 0; i < mDiff; ++i) {
             for (int j = 0; j < mDiff; j++) {
+                recycleBitmap(mBitmapChips[i * mDiff + j]);
                 mBitmapChips[i * mDiff + j] = Bitmap.createBitmap(mCurrentImage, j * w, i * h, w, h);
             }
         }
+        System.gc();
     }
     public Bitmap getBitmapChip(int index)
     {
@@ -199,10 +207,13 @@ public class GameManager {
     {
         Resources res = MyApplication.getContextObject().getResources();
         int resourceId = ChooseImageActivity.mImagesId[index];
-        Bitmap choosedImage = BitmapFactory.decodeResource(res, resourceId);
+        int offY=mUIManager.getmTitleOffY();
+        Bitmap choosedImage = Util.decodeSampledBitmapFromResource(res,resourceId,mWidthPixel,mHeightPixel-offY);
         if(choosedImage!=null) {
-            choosedImage = Util.normalizeImage(choosedImage, mWidthPixel, mHeightPixel - mUIManager.getmTitleOffY());
-            mCurrentImage = Util.cropBitmap(choosedImage, mWidthPixel, mHeightPixel - mUIManager.getmTitleOffY());
+            choosedImage = Util.normalizeImage(choosedImage, mWidthPixel, mHeightPixel -  offY);
+            recycleBitmap(mCurrentImage);
+            mCurrentImage = Util.cropBitmap(choosedImage, mWidthPixel, mHeightPixel -  offY);
+            recycleBitmap(choosedImage);
         }else
         {
             Toast.makeText(mMainActivity, "图片没找到！", Toast.LENGTH_LONG).show();
@@ -211,16 +222,23 @@ public class GameManager {
     }
     public void setCurrentImageFromUri(Uri uri)
     {
+        int offY=mUIManager.getmTitleOffY();
+        Bitmap choosedImage=null;
         InputStream is = null;
         try {
             is = MyApplication.getContextObject().getContentResolver().openInputStream(uri);
+            choosedImage = Util.decodeSampledBitmapFromStream(is, mWidthPixel, mHeightPixel - offY);
+            is.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Bitmap choosedImage = BitmapFactory.decodeStream(is);
         if(choosedImage!=null) {
-            choosedImage = Util.normalizeImage(choosedImage, mWidthPixel, mHeightPixel - mUIManager.getmTitleOffY());
-            mCurrentImage = Util.cropBitmap(choosedImage, mWidthPixel, mHeightPixel - mUIManager.getmTitleOffY());
+            recycleBitmap(mCurrentImage);
+            choosedImage = Util.normalizeImage(choosedImage, mWidthPixel, mHeightPixel -  offY);
+            mCurrentImage = Util.cropBitmap(choosedImage, mWidthPixel, mHeightPixel -  offY);
+            recycleBitmap(choosedImage);
         }else
         {
             Toast.makeText(mMainActivity, "图片没找到！", Toast.LENGTH_LONG).show();
@@ -230,6 +248,14 @@ public class GameManager {
     public void startChooseActivity() {
         Intent chooseImageIntent = new Intent(mMainActivity, ChooseImageActivity.class);
         mMainActivity.startActivityForResult(chooseImageIntent, MainActivity.CHOOSE_IMAGE);
+    }
+    public void recycleBitmap(Bitmap bitmap) {
+        // 先判断是否已经回收
+        if (bitmap != null && !bitmap.isRecycled()) {
+            // 回收并且置为null
+            bitmap.recycle();
+            bitmap = null;
+        }
     }
 }
 

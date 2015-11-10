@@ -68,6 +68,12 @@ public class GameWinView extends RelativeLayout implements View.OnClickListener 
     {
         mGameReviewView.setImageBitmap(image);
     }
+    public void releaseBitmapResourse()
+    {
+        if(mGameReviewView!=null) {
+            mGameReviewView.setImageResource(0);
+        }
+    }
     public void setAgainButtonVisibility(boolean visibility)
     {
         if(visibility) {

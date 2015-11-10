@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mingbaipintu.R;
 import com.mingbaipintu.UIManager;
+import com.mingbaipintu.Util;
 
 
 /**
@@ -36,6 +37,7 @@ public class TitleLayout extends LinearLayout implements View.OnClickListener {
                 break;
             case R.id.setting:
                 UIManager.getInstance().operateSettingList();
+                Util.showMemoryInformation();
                 break;
         }
 

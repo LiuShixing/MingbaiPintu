@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ public class ChooseImageActivity extends Activity {
     private int mImagesCount;
     public static int[] mImagesId = {
             R.drawable.cat_144_album_4,
-            R.drawable.lily_2,    R.drawable.wuer,        R.drawable.luqiya,     R.drawable.wuyue,
+            R.drawable.lily_2, R.drawable.wuer, R.drawable.luqiya, R.drawable.wuyue,
             R.drawable.yihu_wuer, R.drawable.wuer_jiefang, R.drawable.quanxuhua, R.drawable.quanxuhua_2,
             R.drawable.yihu_wuer_0, R.drawable.yihu_wuer_1, R.drawable.yihu_wuer_2, R.drawable.yihu_wuer_3,
             R.drawable.yihu_wuer_4, R.drawable.yihu_wuer_5, R.drawable.yihu_wuer_6, R.drawable.yihu_wuer_7,
@@ -54,14 +53,17 @@ public class ChooseImageActivity extends Activity {
         mImageViewWidth = (GameManager.getInstance().getmWidthPixel() - 4) / 3;
         mImageViewHeight = 14 * mImageViewWidth / 9;
 
-        mImagesCount= GameManager.getInstance().getmLevel();
+        /*
+        共有27张图，第一张,1~25,和最后一张(为了显示美观)
+        getmLevel() 最大返回26，所以mImagesCount最大为27
+         */
+        mImagesCount = GameManager.getInstance().getmLevel();
         mImagesCount++;//忽略第一张图
-        if(mImagesCount>26)
-        {
-            mImagesCount=26;
+        if (mImagesCount > 27) {
+            mImagesCount = 27;
         }
         int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        int cacheSize = maxMemory /20;
+        int cacheSize = maxMemory / 20;
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
@@ -136,12 +138,7 @@ public class ChooseImageActivity extends Activity {
                 mTaskCollection.add(task);
                 task.execute(mImagesId[position], position);
             }
-
-            int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-            Log.e("TAG", "Max memory is " + maxMemory + "KB");
-            int totalMemory = (int) (Runtime.getRuntime().totalMemory() / 1024);
-            Log.e("TAG", "totalMemory is " + totalMemory + "KB");
-
+            Util.showMemoryInformation();
             return imageView;
         }
     }
@@ -162,7 +159,8 @@ public class ChooseImageActivity extends Activity {
      */
     class BitmapWorkerTask extends AsyncTask {
         int mId;
-        int mPosition=0;
+        int mPosition = 0;
+
         public BitmapWorkerTask() {
         }
 
@@ -181,11 +179,18 @@ public class ChooseImageActivity extends Activity {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             ImageView imageView = (ImageView) mGridView.findViewWithTag(mId);
-            if (o != null && imageView!=null) {
+            if (o != null && imageView != null) {
                 imageView.setImageBitmap((Bitmap) o);
             }
             mTaskCollection.remove(this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMemoryCache.evictAll();
+        System.gc();
     }
 }
 

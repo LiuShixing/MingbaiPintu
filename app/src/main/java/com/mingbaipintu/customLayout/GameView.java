@@ -56,6 +56,10 @@ public class GameView extends FrameLayout implements View.OnClickListener{
         mGameWillBeginView.setVisibility(VISIBLE);
         mGamingView.setVisibility(INVISIBLE);
     }
-
-
+    public void releaseBitmapResourse()
+    {
+        if(mGameWillBeginView!=null) {
+            mGameWillBeginView.setImageResource(0);
+        }
+    }
 }
