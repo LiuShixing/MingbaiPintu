@@ -34,11 +34,7 @@ public class Util {
         String msg= name+"= "+value;
         Log.e("e",msg);
     }
-    public static Bitmap enlargeBitmap(Bitmap bm, float scale) {
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale); //长和宽放大缩小的比例
-        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-    }
+
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
@@ -76,4 +72,32 @@ public class Util {
 
         return inSampleSize;
     }
+
+    public static Bitmap cropBitmap(Bitmap bm,int width,int height) {
+        int hW = bm.getWidth() / 2;
+        int hH = bm.getHeight() / 2;
+        int x = hW - width / 2;
+        int y = hH - height / 2;
+
+        return Bitmap.createBitmap(bm, x, y, width, height);
+    }
+
+    public static Bitmap enlargeBitmap(Bitmap bm, float scale) {
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale); //长和宽放大缩小的比例
+        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+    }
+    public static Bitmap normalizeImage(Bitmap bm, int width, int height) {
+        if (bm.getWidth() < width) {
+            float scale = width / (float) bm.getWidth();
+            bm = Util.enlargeBitmap(bm, scale);
+        }
+        if (bm.getHeight() < height) {
+            float scale = (float) height / (float) bm.getHeight();
+            bm = Util.enlargeBitmap(bm, scale);
+        }
+        return bm;
+    }
+
+
 }

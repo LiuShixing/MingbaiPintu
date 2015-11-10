@@ -1,10 +1,13 @@
-package com.mingbaipintu;
+package com.mingbaipintu.customLayout;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import com.mingbaipintu.GameManager;
+import com.mingbaipintu.UIManager;
 
 /**
  * Created by DanDan on 2015/10/8.
@@ -15,11 +18,12 @@ public class FlowImage extends ImageView {
     private int ScreenWidthPixel;
     private int ScreenHeightPixel;
 
-    public FlowImage(Context context,int titleOffY) {
+    public FlowImage(Context context) {
         super(context);
-        ScreenWidthPixel = MainActivity.mWidthPixel;
-        ScreenHeightPixel = MainActivity.mHeightPixel;
-        this.titleOffY=titleOffY;
+        GameManager gameManager =GameManager.getInstance();
+        ScreenWidthPixel = gameManager.getmWidthPixel();
+        ScreenHeightPixel = gameManager.getmHeightPixel();
+        this.titleOffY= UIManager.getInstance().getmTitleOffY();
     }
 
     public void setImage(Bitmap bm) {

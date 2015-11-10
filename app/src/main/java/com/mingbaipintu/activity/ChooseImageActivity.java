@@ -1,4 +1,4 @@
-package com.mingbaipintu;
+package com.mingbaipintu.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,32 +17,26 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mingbaipintu.GameManager;
+import com.mingbaipintu.R;
+import com.mingbaipintu.Util;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class ChooseImageActivity extends Activity {
 
-    public static final String IMAGE_SOURCE_ID = "imageID";
-    public static final String CHOOSE_FROM = "choose_from";
-    public static final String CURRENT_LEVEL = "current_level";
+    public static final String IMAGE_SOURCE_ID_INDEX = "imageID_Index";
     private int mImagesCount;
     public static int[] mImagesId = {
-            R.drawable.cat_144_album_4, R.drawable.lily_2, R.drawable.wuer, R.drawable.luqiya, R.drawable.wuyue,
+            R.drawable.cat_144_album_4,
+            R.drawable.lily_2,    R.drawable.wuer,        R.drawable.luqiya,     R.drawable.wuyue,
             R.drawable.yihu_wuer, R.drawable.wuer_jiefang, R.drawable.quanxuhua, R.drawable.quanxuhua_2,
             R.drawable.yihu_wuer_0, R.drawable.yihu_wuer_1, R.drawable.yihu_wuer_2, R.drawable.yihu_wuer_3,
             R.drawable.yihu_wuer_4, R.drawable.yihu_wuer_5, R.drawable.yihu_wuer_6, R.drawable.yihu_wuer_7,
             R.drawable.yihu_wuer_8, R.drawable.yihu_wuer_9, R.drawable.yihu_wuer_10, R.drawable.yihu_wuer_11,
             R.drawable.yihu_wuer_12, R.drawable.yihu_wuer_13, R.drawable.yihu_wuer_14, R.drawable.yihu_wuer_15,
-            R.drawable.yihu_wuer_16, R.drawable.yihu_wuer_17,
-            R.drawable.wuyue_1, R.drawable.wuyue_2, R.drawable.wuyue_3, R.drawable.wuyue_4, R.drawable.wuyue_5,
-            R.drawable.wuyue_6, R.drawable.wuyue_7, R.drawable.wuyue_8, R.drawable.wuyue_9, R.drawable.wuyue_10,
-            R.drawable.wuyue_11, R.drawable.wuyue_12, R.drawable.wuyue_13, R.drawable.wuyue_14, R.drawable.wuyue_15,
-            R.drawable.wuyue_16, R.drawable.wuyue_17, R.drawable.wuyue_18, R.drawable.wuyue_19, R.drawable.wuyue_20,
-            R.drawable.wuyue_21, R.drawable.wuyue_22, R.drawable.wuyue_23, R.drawable.wuyue_24, R.drawable.wuyue_25,
-            R.drawable.wuyue_26, R.drawable.wuyue_27, R.drawable.wuyue_28, R.drawable.wuyue_29, R.drawable.wuyue_30,
-            R.drawable.wuyue_31, R.drawable.wuyue_32, R.drawable.wuyue_33, R.drawable.wuyue_34, R.drawable.wuyue_35,
-            R.drawable.wuyue_36, R.drawable.wuyue_37, R.drawable.wuyue_38, R.drawable.wuyue_39, R.drawable.wuyue_40,
-
+            R.drawable.yihu_wuer_16
     };
 
     private LruCache mMemoryCache;
@@ -57,11 +51,10 @@ public class ChooseImageActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_choose_image);
 
-        mImageViewWidth = (MainActivity.mWidthPixel - 4) / 3;
+        mImageViewWidth = (GameManager.getInstance().getmWidthPixel() - 4) / 3;
         mImageViewHeight = 14 * mImageViewWidth / 9;
 
-        Intent intent = getIntent();
-        mImagesCount=intent.getIntExtra(CURRENT_LEVEL,1);
+        mImagesCount= GameManager.getInstance().getmLevel();
         mImagesCount++;//忽略第一张图
         if(mImagesCount>26)
         {
@@ -83,8 +76,7 @@ public class ChooseImageActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
-                intent.putExtra(IMAGE_SOURCE_ID, mImagesId[position]);
-                intent.putExtra(CHOOSE_FROM, position);
+                intent.putExtra(IMAGE_SOURCE_ID_INDEX, position);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -171,12 +163,7 @@ public class ChooseImageActivity extends Activity {
     class BitmapWorkerTask extends AsyncTask {
         int mId;
         int mPosition=0;
-
         public BitmapWorkerTask() {
-        }
-
-        public int getmPosition() {
-            return mPosition;
         }
 
         @Override
