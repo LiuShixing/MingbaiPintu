@@ -118,7 +118,8 @@ public class MainActivity extends Activity {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt(DIFFICULTY, mGameManager.getmDiff());
         editor.putInt(LEVEL, mGameManager.getmLevel());
-        editor.commit();
+        editor.apply();
+  //      editor.commit();
     }
 
     class LocalReceiver extends BroadcastReceiver {
@@ -165,7 +166,8 @@ public class MainActivity extends Activity {
 
                             SharedPreferences.Editor editor = mSharedPreferences.edit();
                             editor.putInt(LAST_IMAGE_INDEX_FROM_APP, imageIndex);
-                            editor.commit();
+                            editor.apply();
+                      //      editor.commit();
                         }
                     }
                 }
@@ -200,7 +202,6 @@ public class MainActivity extends Activity {
                     mExitTime = System.currentTimeMillis();
                 } else {
                     finish();
-                    System.exit(0);
                 }
             }
             return true;
@@ -215,6 +216,8 @@ public class MainActivity extends Activity {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(LAST_IMAGE_ADDR, mLastPicAddr);
         editor.putInt(LAST_IMAGE_INDEX_FROM_APP, -1);
-        editor.commit();
+        editor.apply();
+//        editor.commit();
+        System.exit(0);
     }
 }

@@ -60,6 +60,7 @@ public class SettingList extends ListView {
                             gameManager.setmIsCustom(false);
                             UpdateTitleTimer.getInstance().concelTimer();
                             gameManager.setCurrentImageFromResource(gameManager.getmLevel());
+                            gameManager.caculatemDiff();
                             UIManager.getInstance().initGamingView(gameManager.getmDiff());
                             gameManager.splitBitmap();
                             gameManager.gameReady();

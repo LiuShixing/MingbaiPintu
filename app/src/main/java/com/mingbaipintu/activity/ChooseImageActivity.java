@@ -29,13 +29,12 @@ public class ChooseImageActivity extends Activity {
     private int mImagesCount;
     public static int[] mImagesId = {
             R.drawable.cat_144_album_4,
-            R.drawable.lily_2, R.drawable.wuer, R.drawable.luqiya, R.drawable.wuyue,
-            R.drawable.yihu_wuer, R.drawable.wuer_jiefang, R.drawable.quanxuhua, R.drawable.quanxuhua_2,
-            R.drawable.yihu_wuer_0, R.drawable.yihu_wuer_1, R.drawable.yihu_wuer_2, R.drawable.yihu_wuer_3,
-            R.drawable.yihu_wuer_4, R.drawable.yihu_wuer_5, R.drawable.yihu_wuer_6, R.drawable.yihu_wuer_7,
-            R.drawable.yihu_wuer_8, R.drawable.yihu_wuer_9, R.drawable.yihu_wuer_10, R.drawable.yihu_wuer_11,
-            R.drawable.yihu_wuer_12, R.drawable.yihu_wuer_13, R.drawable.yihu_wuer_14, R.drawable.yihu_wuer_15,
-            R.drawable.yihu_wuer_16
+            R.drawable.p1, R.drawable.p2, R.drawable.p3, R.drawable.p4, R.drawable.p5,
+            R.drawable.p6, R.drawable.p7, R.drawable.p8, R.drawable.p9, R.drawable.p10,
+            R.drawable.p11, R.drawable.p12, R.drawable.p13, R.drawable.p14, R.drawable.p15,
+            R.drawable.p16, R.drawable.p17, R.drawable.p18, R.drawable.p19, R.drawable.p20,
+            R.drawable.p21, R.drawable.p22, R.drawable.p23, R.drawable.p24, R.drawable.p25,
+            R.drawable.p26
     };
 
     private LruCache mMemoryCache;

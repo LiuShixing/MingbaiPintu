@@ -154,7 +154,7 @@ public class GameManager {
             mUIManager.showGameWinView(mCurrentImage);
         }
     }
-    private void caculatemDiff() {
+    public void caculatemDiff() {
         if(mLevel<26) {
             switch ((mLevel - 1) / 5) {
                 case 0:

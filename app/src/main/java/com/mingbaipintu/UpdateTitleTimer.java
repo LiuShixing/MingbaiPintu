@@ -67,5 +67,4 @@ public class UpdateTitleTimer {
             GameManager.getInstance().getmLocalBroadcastManager().sendBroadcast(intent);
         }
     }
-
 }

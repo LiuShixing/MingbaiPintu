@@ -80,7 +80,6 @@ public class UIManager {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 mainActivity.finish();
-                System.exit(0);
             }
         });
         builder.create().show();

@@ -125,23 +125,35 @@ public class Util {
         return Bitmap.createBitmap(bm, x, y, width, height);
     }
 
-    public static Bitmap enlargeBitmap(Bitmap bm, float scale) {
+    public static Bitmap resizeBitmap(Bitmap bm, float scale) {
+        if(scale==1)
+            return bm;
         Matrix matrix = new Matrix();
         matrix.postScale(scale, scale); //长和宽放大缩小的比例
         return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
     }
 
     public static Bitmap normalizeImage(Bitmap bm, int width, int height) {
-        if (bm.getWidth() < width) {
-            float scale = width / (float) bm.getWidth();
-            bm = Util.enlargeBitmap(bm, scale);
+        int w=bm.getWidth();
+        int h=bm.getHeight();
+
+        float scale=1;
+
+        float widthRatio;
+        float heightRatio;
+        if (w < width || h < height) {
+            widthRatio = (float) width / (float) w;
+            heightRatio = (float) height / (float) h;
+            scale = heightRatio > widthRatio ? heightRatio : widthRatio;
         }
-        if (bm.getHeight() < height) {
-            float scale = (float) height / (float) bm.getHeight();
-            bm = Util.enlargeBitmap(bm, scale);
+
+        if(w>width && h>height)
+        {
+            //缩小
+            heightRatio = (float) height / (float)h ;
+            widthRatio = (float) width / (float) w;
+            scale = heightRatio > widthRatio ? heightRatio : widthRatio;
         }
-        return bm;
+        return Util.resizeBitmap(bm, scale);
     }
-
-
 }
