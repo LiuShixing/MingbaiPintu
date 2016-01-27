@@ -192,7 +192,7 @@ public class UIManager {
                 break;
             }
         }
-        if (true) {
+        if (is) {
            GameManager.getInstance().gameWin();
         }
     }
